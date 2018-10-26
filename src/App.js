@@ -33,7 +33,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header title="Project Base" />
+        <Header title="Tiny Stretch" />
         <Router>
           <Switch>
             <Redirect exact from="/" to="/home" />

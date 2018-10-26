@@ -1,13 +1,13 @@
-/* global google */
 import React, { Component } from 'react';
-import { GoogleMap, withGoogleMap, withScriptjs } from 'react-google-maps';
+import { GoogleMap, withGoogleMap, withScriptjs, Marker } from 'react-google-maps';
 import axios from 'axios';
 import Select from 'react-select';
+// import { PLAYGROUND_ACTIONS } from '../../redux/actions/playgroundActions';
 
 let test = { lat: 42, lng: -98 };
 class StateMap extends Component {
     state = {
-        selectedState: {center_lat: 41, center_lng: -98, zoom: 4},
+        selectedState: { center_lat: 41, center_lng: -98, zoom: 4 },
         parks: [],
         allStates: [],
     }
@@ -20,11 +20,11 @@ class StateMap extends Component {
     }
 
     handleChange = (selectedState) => {
-        this.setState({selectedState: selectedState });
-        axios.get(`/api/park/${selectedState.postal_code}`).then((response)=>{
-            this.setState({parks: response.data});
-        }).catch((error)=>{
-            console.log('Error in GET /parks:',error);
+        this.setState({ selectedState: selectedState });
+        axios.get(`/api/park/${selectedState.postal_code}`).then((response) => {
+            this.setState({ parks: response.data });
+        }).catch((error) => {
+            console.log('Error in GET /parks:', error);
         })
     }
 
@@ -33,14 +33,18 @@ class StateMap extends Component {
         return (
             <div>
                 <Select
-                    options={this.state.allStates.map(state=>({label: state.postal_code, value: state.id, selectedState: state }))}
-                    onChange={(option)=>this.handleChange(option.selectedState)}
+                    options={this.state.allStates.map(state => ({ label: state.postal_code, value: state.id, selectedState: state }))}
+                    onChange={(option) => this.handleChange(option.selectedState)}
                 />
                 <GoogleMap
-                    defaultCenter={ test }
-                    center={{lat: Number(this.state.selectedState.center_lat), lng: Number(this.state.selectedState.center_lng) }}
+                    defaultCenter={test}
+                    center={{ lat: Number(this.state.selectedState.center_lat), lng: Number(this.state.selectedState.center_lng) }}
                     zoom={this.state.selectedState.zoom}
-                ></GoogleMap>
+                >
+                    {this.state.parks.map(park => <Marker key={park.id}
+                        position={{ lat: Number(park.latitude), lng: Number(park.longitude) }}
+                        title={park.name} />)}
+                </GoogleMap>
                 {JSON.stringify(this.state)}
             </div>
         );

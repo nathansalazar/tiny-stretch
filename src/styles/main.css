@@ -78,3 +78,22 @@ li a:hover {
     text-decoration: underline;
     color: #eee;
 }
+
+table{
+    width: 80%;
+    margin: auto;
+}
+
+td{
+    max-width: 500px;
+}
+
+table, tr, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.card{
+    width: 300px;
+    border: outset;
+}
