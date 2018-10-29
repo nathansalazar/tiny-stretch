@@ -1,23 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
-const Nav = (props) => (
+const NavGuest = () => (
   <div className="navbar">
     <div>
       <ul>
-        {props.user.userName ?
-          <li>
-            <Link to="/user">
-              User Home
-        </Link>
-          </li> :
-          <li>
-            <Link to="/">
-              Login
-      </Link>
-          </li>
-        }
         <li>
           <Link to="/search">
             Search Page
@@ -38,8 +25,4 @@ const Nav = (props) => (
   </div>
 );
 
-const mapReduxStateToProps = (state) => {
-  return { user: state.user };
-}
-
-export default connect(mapReduxStateToProps)(Nav);
+export default NavGuest;

@@ -19,8 +19,8 @@ class UserPage extends Component {
   render() {
     let content = null;
 
-    // if (this.props.user.userName) {
-      if(true){
+    if (this.props.user.userName) {
+      // if(true){
       content = (
         <div>
           <h1

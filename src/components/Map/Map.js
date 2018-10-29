@@ -49,7 +49,6 @@ class Map extends Component {
                 window.alert('Geocoder failed due to: ' + status);
             }
         })
-        console.log('Photo url:', photo);
     }
 
     plotRouteAndParks = (route) => {

@@ -5,11 +5,14 @@ body {
 .instructions h1 {
     font-size: 24px;
     font-weight: 700;
+    text-align: center;
 }
 
 .instructions {
-    background-color: #00acb0;
+    background-color: #61ce5e;
     padding: 5px;
+    width: 70%;
+    margin: auto;
     color: #ece7e7;
 }
 
@@ -48,8 +51,10 @@ input[type="submit"] {
 }
 
 .navbar {
-  background-color: #00acb0;
-  width: 100%;
+  background-color: #61ce5e;
+  width: 70%;
+  margin: auto;
+  padding: 5px;
   border-radius: 0px;
 }
 

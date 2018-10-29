@@ -10,6 +10,7 @@ class StateMap extends Component {
         selectedState: { center_lat: 41, center_lng: -98, zoom: 4 },
         parks: [],
         allStates: [],
+        selectedPark: {}
     }
     componentDidMount = () => {
         axios.get('/api/states').then((response) => {
@@ -28,6 +29,10 @@ class StateMap extends Component {
         })
     }
 
+    handleClick = (park) => {
+        this.setState({selectedPark: park});
+    }
+
 
     render() {
         return (
@@ -43,8 +48,14 @@ class StateMap extends Component {
                 >
                     {this.state.parks.map(park => <Marker key={park.id}
                         position={{ lat: Number(park.latitude), lng: Number(park.longitude) }}
-                        title={park.name} />)}
+                        title={park.name} 
+                        onClick={()=>this.handleClick(park)}/>)}
                 </GoogleMap>
+                <p>Parks in state: {this.state.parks.length}</p>
+                <div className="card">
+                        <h4>{this.state.selectedPark.name}</h4>
+                        <img src={this.state.selectedPark.photo_reference} style={{maxWidth: "300px"}}/>
+                </div>
                 {JSON.stringify(this.state)}
             </div>
         );

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import NavGuest from '../NavGuest/NavGuest';
 
 
 const mapStateToProps = state => ({
@@ -26,7 +27,7 @@ class LoginPage extends Component {
     if (this.state.username === '' || this.state.password === '') {
       this.props.dispatch(formError());
     } else {
-      // this.props.dispatch(triggerLogin(this.state.username, this.state.password));
+      this.props.dispatch(triggerLogin(this.state.username, this.state.password));
       this.props.history.push('/user')
     }
   }
@@ -54,6 +55,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
+        <NavGuest />
         {this.renderAlert()}
         <form onSubmit={this.login}>
           <h1>Login</h1>

@@ -16,7 +16,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
 import SearchPage from './components/SearchPage/SearchPage';
-import addPlaygroundPage from './components/addPlaygroundPage/addPlaygroundPage';
+import AddPlaygroundPage from './components/AddPlaygroundPage/AddPlaygroundPage';
 import SearchByStatePage from './components/searchByStatePage/searchByStatePage';
 
 import './styles/main.css';
@@ -50,12 +50,12 @@ class App extends Component {
               component={UserPage}
             />
             <Route
-              path="/info"
+              path="/search"
               component={SearchPage}
             />
             <Route
               path="/add_playground"
-              component={addPlaygroundPage}
+              component={AddPlaygroundPage}
             />
             <Route
               path="/search_by_state"

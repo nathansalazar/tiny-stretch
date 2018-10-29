@@ -13,8 +13,8 @@ class ProtectedRoute extends Component {
       let ProtectedComponent;
       if(this.props.loginPending || this.props.user.isLoading ) {
         ProtectedComponent = <p>LOADING...</p>
-      // } else if (!this.props.user.isLoading && !this.props.user.id) {
-      //   ProtectedComponent = <Redirect to="/home"></Redirect>
+      } else if (!this.props.user.isLoading && !this.props.user.id) {
+        ProtectedComponent = <Redirect to="/home"></Redirect>
       } else {
         ProtectedComponent = <ComponentToProtect />
       }
