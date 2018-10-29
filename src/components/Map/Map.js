@@ -29,7 +29,7 @@ class Map extends Component {
         //get the associated photo
         if (playground.photoReference) {
             photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${playground.photoReference}&sensor=false&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`;
-        }else{
+        } else {
             photo = 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif';
         }
         //get the state
@@ -93,7 +93,7 @@ class Map extends Component {
                     if (distanceBetweenPoints(stepEnd, lastSearch) > route.radius * 1.5) {
                         lastSearch = stepEnd;
                         searchAt.push(lastSearch);
-                        this.setState({searchAt: [...searchAt, lastSearch]});
+                        this.setState({ searchAt: [...searchAt, lastSearch] });
                         this.props.dispatch({ type: PLAYGROUND_ACTIONS.SEARCH_PLAYGROUNDS, payload: lastSearch, radius: route.radius });
                     }
                 }
@@ -119,7 +119,7 @@ class Map extends Component {
     }
 
     addPark = () => {
-        this.setState({ waypoints: [...this.state.waypoints, { location: this.state.address }] });
+        this.setState({ waypoints: [...this.state.waypoints, { location: this.state.address, name: this.state.selectedMarker.name }] });
     }
 
     //Once we've added some waypoints this function will recalculate the new route
@@ -141,20 +141,11 @@ class Map extends Component {
                 let legs = result.routes[0].legs;
                 let directions = [];
                 for (let leg of legs) {
-                    for (let i=0;i<leg.steps.length;i++) {
-                    //this next bit formats the driving directions since the 'strip' function
-                    //ends up pushing together the ends/starts of sentences
-                        // let addSpaceObject={
-                        //     "Destination": '. Destination',
-                        //     "Continue": ' Continue',
-                        //     "Entering": '. Entering',
-                        //     "Pass": '. Pass'
-                        // }
-                        // let formattedInstructions = leg.steps[i].instructions.replace(/Destination|Continue|Entering|Pass/, 
-                        //     function(matchedString){return addSpaceObject[matchedString]});
-                        if(i===leg.steps.length-1){
+                    for (let i = 0; i < leg.steps.length; i++) {
+                        if (i === leg.steps.length - 1) {
                             directions.push({ text: leg.steps[i].instructions, distance: leg.steps[i].distance.text, finalStep: true });
-                        }else{
+                            directions.push({ text: `Arrive at `, distance: null, finalStep: true });
+                        } else {
                             directions.push({ text: leg.steps[i].instructions, distance: leg.steps[i].distance.text, finalStep: false });
                         }
                     }
@@ -173,14 +164,16 @@ class Map extends Component {
         let tmp = document.createElement("DIV");
         tmp.innerHTML = html;
         let tempString = tmp.textContent || tmp.innerText || "";
-        let addSpaceObject={
+        //this next bit formats the driving directions since the 'strip' function
+        //ends up pushing together the ends/starts of sentences
+        let addSpaceObject = {
             "Destination": '. Destination',
             "Continue": ' Continue',
             "Entering": '. Entering',
             "Pass": '. Pass'
         }
-        let formattedInstructions = tempString.replace(/Destination|Continue|Entering|Pass/, 
-            function(matchedString){return addSpaceObject[matchedString]});
+        let formattedInstructions = tempString.replace(/Destination|Continue|Entering|Pass/,
+            function (matchedString) { return addSpaceObject[matchedString] });
         // return tmp.textContent || tmp.innerText || "";
         return formattedInstructions;
     }
@@ -204,34 +197,41 @@ class Map extends Component {
                         {this.props.state.playgrounds.map((playground, index) =>
                             <Marker key={index} position={playground.location} title={playground.name} onClick={() => this.onMarkerClick(playground)} />)}
 
-                        {this.props.state.checkpoints.map((checkpoint, index) => <Circle key={index} 
-                            center={checkpoint} radius={this.props.state.route.radius} options={{fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1'}}/>)}
+                        {this.props.state.checkpoints.map((checkpoint, index) => <Circle key={index}
+                            center={checkpoint} radius={this.props.state.route.radius} options={{ fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1' }} />)}
                     </GoogleMap>
                     <div>
                         <h3>More Info</h3>
-                        <div className="card">
-                            <h4>{this.state.selectedMarker.name}</h4>
-                            <p>{this.state.address}</p>
-                            <img src={photo} style={{ maxWidth: "300px" }} />
-                            <button onClick={this.addPark}>Add this park to your trip</button>
-                            <button onClick={() => this.routeWithWaypoints(this.props.state.route)}>Recalculate Your Route</button>
+                        <div style={{ display: "inline-block" }}>
+                            <div className="card">
+                                <h4>{this.state.selectedMarker.name}</h4>
+                                <p>{this.state.address}</p>
+                                <img src={photo} style={{ maxWidth: "300px" }} />
+                                <button onClick={this.addPark}>Add this park to your trip</button>
+                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)}>Recalculate Your Route</button>
+                            </div>
+                            <p>Parks at which you are stopping:</p>
+                            <ul>
+                                {this.state.waypoints.map((waypoint, index) => <li key={index}>{JSON.stringify(waypoint.name)}</li>)}
+                            </ul>
                         </div>
                         <p>Parks currently in waypoints: {JSON.stringify(this.state.waypoints)}</p>
                     </div>
                     <table>
                         <tbody>
                             {this.state.instructions.map((instruction, index) => {
-                                if(instruction.finalStep){
+                                if (instruction.finalStep) { /*if it's the final step, put text in bold */
                                     return (<tr key={index}>
-                                    <td><b>{this.strip(instruction.text)}</b></td>
-                                    <td>{instruction.distance}</td>
-                                </tr>);
-                                }else{
+                                        <td><b>{this.strip(instruction.text)}</b></td>
+                                        <td>{instruction.distance}</td>
+                                    </tr>);
+                                } else {
                                     return (<tr key={index}>
                                         <td>{this.strip(instruction.text)}</td>
                                         <td>{instruction.distance}</td>
-                                        </tr>);
-                            }})}
+                                    </tr>);
+                                }
+                            })}
                         </tbody>
                     </table>
                     {JSON.stringify(this.props.checkpoints)}

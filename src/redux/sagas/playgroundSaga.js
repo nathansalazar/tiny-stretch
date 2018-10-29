@@ -33,7 +33,7 @@ function* searchParks (action) {
         if(allInfoOnPlaygrounds.length>0){
             playgrounds = allInfoOnPlaygrounds.map(playground => trimDownPlayground(playground));
         }
-        let filteredPlaygrounds = playgrounds.filter( pg => distanceBetweenPoints(pg.location, action.payload) < action.radius );
+        let filteredPlaygrounds = playgrounds.filter( pg => distanceBetweenPoints(pg.location, action.payload) < action.radius && !pg.types.includes('campground') );
         console.log(`We searched at (${action.payload.lat},${action.payload.lng}) and found:`,filteredPlaygrounds);
         yield put({type: 'SET_PLAYGROUNDS', payload: filteredPlaygrounds});
     } catch (error) {
