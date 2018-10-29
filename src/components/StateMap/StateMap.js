@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { GoogleMap, withGoogleMap, withScriptjs, Marker } from 'react-google-maps';
 import axios from 'axios';
 import Select from 'react-select';
+import {connect} from 'react-redux';
 // import { PLAYGROUND_ACTIONS } from '../../redux/actions/playgroundActions';
 
 class StateMap extends Component {
     state = {
         selectedState: { center_lat: 41, center_lng: -98, zoom: 4 },
+        selectedPark: {},
         parks: [],
         allStates: [],
-        selectedPark: {}
     }
     componentDidMount = () => {
         axios.get('/api/states').then((response) => {
@@ -39,7 +40,7 @@ class StateMap extends Component {
         return (
             <div>
                 <Select
-                    options={this.state.allStates.map(state => ({ label: state.postal_code, value: state.id, selectedState: state }))}
+                    options={this.state.allStates.map(state => ({ label: state.full_name, value: state.id, selectedState: state }))}
                     onChange={(option) => this.handleChange(option.selectedState)}
                 />
                 <GoogleMap
@@ -58,12 +59,18 @@ class StateMap extends Component {
                         <img src={this.state.selectedPark.photo_reference} style={{maxWidth: "300px"}}/>
                         {this.state.selectedPark.description && 
                             <p>Description: {this.state.selectedPark.description}</p>}
+                        {this.props.user.id==this.state.selectedPark.added_by && 
+                        <p>You added this park!</p>}
                 </div>
-                {JSON.stringify(this.state)}
+                <pre>{JSON.stringify(this.state,null, 2)}</pre>
             </div>
         );
     }
 }
 
-export default withScriptjs(withGoogleMap(StateMap));
+const mapStateToProps = state => {
+    return {user: state.user}
+}
+
+export default connect(mapStateToProps)(withScriptjs(withGoogleMap(StateMap)));
 // export default StateMap;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// import AutoCompleteComponent from '../AutoCompleteComponent/AutoCompleteComponent';
 
 import Nav from '../../components/Nav/Nav';
 
@@ -34,6 +35,7 @@ class UserPage extends Component {
           >
             Log Out
           </button>
+          {/* <AutoCompleteComponent /> */}
         </div>
       );
     }

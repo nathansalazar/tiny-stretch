@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PLAYGROUND_ACTIONS } from '../../redux/actions/playgroundActions';
 import milesToMeters from '../../auxiliaryFunctions/milesToMeters';
+// import Script from 'react-load-script';
 
 class SearchForm extends Component {
 
@@ -28,14 +29,39 @@ class SearchForm extends Component {
         this.props.dispatch({ type: 'SET_ROUTE', payload: this.state });
     }
 
+    // handleScriptLoad = () =>  { 
+    //     // Declare Options For Autocomplete 
+    //     var options = { types: ['(cities)'] }; 
+    //     // Initialize Google Autocomplete 
+    //     /*global google*/
+    //     let origin = new google.maps.places.Autocomplete(document.getElementById('origin'),options ); 
+    //     let destination = new google.maps.places.Autocomplete(document.getElementById('destination'),options ); 
+    //     // Fire Event when a suggested name is selected
+    //     origin.addListener('place_changed', ()=>{this.setState({origin: origin.getPlace().formatted_address})}); 
+    //     destination.addListener('place_changed',  ()=>{this.setState({destination: destination.getPlace().formatted_address})}); 
+    //   }
+
+   
+
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input placeholder="origin" type="text" onChange={this.handleChange('origin')} />
-                <input placeholder="destination" type="text" onChange={this.handleChange('destination')} />
-                <input placeholder="radius (miles)" type="number" onChange={this.handleChange('radius')} />
-                <input type="submit" />
-            </form>
+            <div>
+                {/* <Script 
+                    url="https://cors.io?https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY&libraries=places"
+                    onLoad={this.handleScriptLoad}
+                    onError={()=>{console.log('ERROR!')}}
+                /> */}
+                <form onSubmit={this.handleSubmit} className="autocomplete">
+                    <input placeholder="origin" id="origin" type="text" onChange={this.handleChange('origin')} />
+                    <input placeholder="destination" id="destination" type="text" onChange={this.handleChange('destination')} /> {/*onChange={this.handleChange('destination')}*/}
+                    <input placeholder="radius (miles)" type="number" onChange={this.handleChange('radius')} />
+                    <input type="submit" />
+                </form>
+                <pre>
+
+                {JSON.stringify(this.state, null, 2)}
+                </pre>
+            </div>
         )
     }
 }

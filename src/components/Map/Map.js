@@ -234,10 +234,9 @@ class Map extends Component {
                             })}
                         </tbody>
                     </table>
-                    {JSON.stringify(this.props.checkpoints)}
                     <br />
                     <br />
-                    {JSON.stringify(this.props, null, 2)}
+                    <pre>{JSON.stringify(this.props, null, 2)}</pre>
                 </div>
             </div>
         );
