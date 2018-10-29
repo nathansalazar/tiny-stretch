@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GoogleMap, withGoogleMap, withScriptjs, Marker, DirectionsRenderer } from "react-google-maps";
+import { GoogleMap, withGoogleMap, withScriptjs, Marker, DirectionsRenderer, Circle } from "react-google-maps";
 import distanceBetweenPoints from '../../auxiliaryFunctions/distanceBetweenPoints';
 import { PLAYGROUND_ACTIONS } from '../../redux/actions/playgroundActions';
 
@@ -20,7 +20,7 @@ class Map extends Component {
         selectedMarker: {},
         address: '',
         waypoints: [],
-        instructions: []
+        instructions: [],
     }
 
     onMarkerClick = (playground) => {
@@ -90,9 +90,10 @@ class Map extends Component {
                     stepEnd = { lat: step.lat(), lng: step.lng() };
                     let segmentDistance = distanceBetweenPoints(stepEnd, stepBeginning);
                     distanceTraveledMeters = distanceTraveledMeters + segmentDistance;
-                    if (distanceBetweenPoints(stepEnd, lastSearch) > route.radius * 2) {
+                    if (distanceBetweenPoints(stepEnd, lastSearch) > route.radius * 1.5) {
                         lastSearch = stepEnd;
                         searchAt.push(lastSearch);
+                        this.setState({searchAt: [...searchAt, lastSearch]});
                         this.props.dispatch({ type: PLAYGROUND_ACTIONS.SEARCH_PLAYGROUNDS, payload: lastSearch, radius: route.radius });
                     }
                 }
@@ -203,6 +204,8 @@ class Map extends Component {
                         {this.props.state.playgrounds.map((playground, index) =>
                             <Marker key={index} position={playground.location} title={playground.name} onClick={() => this.onMarkerClick(playground)} />)}
 
+                        {this.props.state.checkpoints.map((checkpoint, index) => <Circle key={index} 
+                            center={checkpoint} radius={this.props.state.route.radius} options={{fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1'}}/>)}
                     </GoogleMap>
                     <div>
                         <h3>More Info</h3>
@@ -231,7 +234,7 @@ class Map extends Component {
                             }})}
                         </tbody>
                     </table>
-                    {JSON.stringify(this.state.instructions)}
+                    {JSON.stringify(this.props.checkpoints)}
                     <br />
                     <br />
                     {JSON.stringify(this.props, null, 2)}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Nav from '../Nav/Nav';
 import { connect } from 'react-redux';
 import AddPlaygroundMap from '../AddPlaygroundMap/AddPlaygroundMap';
@@ -18,7 +18,7 @@ const AddPlaygroundPage = (props) => (
             </div>) :
             (<div>
                 <Nav />
-                Login to add a playground
+                <p>Login to add a playground</p>
             </div>)
         }
     </div>

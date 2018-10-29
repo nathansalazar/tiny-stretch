@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {put, takeEvery, takeLatest} from 'redux-saga/effects';
+import {put, takeEvery, takeLatest, call} from 'redux-saga/effects';
 import distanceBetweenPoints from '../../auxiliaryFunctions/distanceBetweenPoints';
+import {searchNearby} from '../requests/playgroundRequests';
 
 const trimDownPlayground = (playground) => {
     let photoReference = '';
@@ -13,11 +14,12 @@ const trimDownPlayground = (playground) => {
 function* searchParks (action) {
     try{
         //this is a textSearch
-        // const playgroundObject = yield axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/textsearch/json?query=playgrounds&location=${action.payload.lat},${action.payload.lng}&radius=${action.radius}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`);
+        // const playgroundObject = yield axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground&location=${action.payload.lat},${action.payload.lng}&radius=${action.radius}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`);
         
         //and this is a nearbySearch
-        const playgroundObject = yield axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${action.payload.lat},${action.payload.lng}&radius=${Math.max(10000,action.radius)}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`);
-        
+        // const playgroundObject = yield axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${action.payload.lat},${action.payload.lng}&radius=${Math.max(10000,action.radius)}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`);
+        const playgroundObject = yield searchNearby(action.payload.lat, action.payload.lng, action.radius);
+
         // const playgroundObject = yield axios('/', {
         //     headers: { 'Access-Control-Allow-Origin': '*' },
         //     method: 'GET',
@@ -27,7 +29,7 @@ function* searchParks (action) {
         const allInfoOnPlaygrounds = playgroundObject.data.results;
         //allInfoOnPlaygrounds is an array of objects with a ton of properties,
         //most of which we don't care about. So we trim down to just what we need
-        let playgrounds;
+        let playgrounds = [];
         if(allInfoOnPlaygrounds.length>0){
             playgrounds = allInfoOnPlaygrounds.map(playground => trimDownPlayground(playground));
         }

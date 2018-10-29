@@ -4,7 +4,6 @@ import axios from 'axios';
 import Select from 'react-select';
 // import { PLAYGROUND_ACTIONS } from '../../redux/actions/playgroundActions';
 
-let test = { lat: 42, lng: -98 };
 class StateMap extends Component {
     state = {
         selectedState: { center_lat: 41, center_lng: -98, zoom: 4 },
@@ -30,7 +29,9 @@ class StateMap extends Component {
     }
 
     handleClick = (park) => {
-        this.setState({selectedPark: park});
+        this.setState({selectedPark: park, selectedState: {center_lat: Number(park.latitude), center_lng: Number(park.longitude)}} );
+        // console.log('refs:', this.gmap);
+        console.log(this.state.selectedState);
     }
 
 
@@ -42,9 +43,9 @@ class StateMap extends Component {
                     onChange={(option) => this.handleChange(option.selectedState)}
                 />
                 <GoogleMap
-                    defaultCenter={test}
                     center={{ lat: Number(this.state.selectedState.center_lat), lng: Number(this.state.selectedState.center_lng) }}
                     zoom={this.state.selectedState.zoom}
+                    // ref={(googleMap) => this.gmap = googleMap}
                 >
                     {this.state.parks.map(park => <Marker key={park.id}
                         position={{ lat: Number(park.latitude), lng: Number(park.longitude) }}
