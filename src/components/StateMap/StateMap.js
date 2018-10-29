@@ -56,6 +56,8 @@ class StateMap extends Component {
                 <div className="card">
                         <h4>{this.state.selectedPark.name}</h4>
                         <img src={this.state.selectedPark.photo_reference} style={{maxWidth: "300px"}}/>
+                        {this.state.selectedPark.description && 
+                            <p>Description: {this.state.selectedPark.description}</p>}
                 </div>
                 {JSON.stringify(this.state)}
             </div>

@@ -29,8 +29,8 @@ class AddPlaygroundMap extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log('Playground:',this.state);
-        console.log('Added by user number:',this.props.user.id);
-        // this.props.dispatch({type: 'POST_PLAYGROUND', payload: {...this.state, photoReference: 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif', added_by: this.props.user.id}});
+        this.props.dispatch({type: 'POST_PLAYGROUND', payload: {...this.state, photoReference: 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif', added_by: this.props.user.id}});
+        console.log('payload:',{...this.state, photoReference: 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif', added_by: this.props.user.id});
     }
 
     render() {
