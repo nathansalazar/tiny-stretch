@@ -25,6 +25,12 @@ form {
     border-radius: 2px;
 }
 
+#playgroundForm{
+    width: 100%;
+    padding: 0px;
+    
+}
+
 input {
     margin: 5px;
     margin-bottom: 10px;
