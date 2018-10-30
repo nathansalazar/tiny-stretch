@@ -9,7 +9,9 @@ import Nav from '../Nav/Nav';
 
 class SearchPage extends Component {
 
- 
+  state={
+    url: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY&v=3.exp&libraries=geometry,drawing,places"
+  }
 
 
   render() {
@@ -17,9 +19,9 @@ class SearchPage extends Component {
     return (
       <div>
         <Nav />
-        <SearchForm />
+        <SearchForm url={this.state.url}/>
           <Map
-            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY&v=3.exp&libraries=geometry,drawing,places"
+            googleMapURL={this.state.url}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `400px`, maxWidth: "800px", margin: "auto" }} />}
             mapElement={<div style={{ height: `100%` }} />}

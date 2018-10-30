@@ -13,11 +13,6 @@ const trimDownPlayground = (playground) => {
 
 function* searchParks (action) {
     try{
-        //this is a textSearch
-        // const playgroundObject = yield axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground&location=${action.payload.lat},${action.payload.lng}&radius=${action.radius}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`);
-        
-        //and this is a nearbySearch
-        // const playgroundObject = yield axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${action.payload.lat},${action.payload.lng}&radius=${Math.max(10000,action.radius)}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`);
         const playgroundObject = yield searchNearby(action.payload.lat, action.payload.lng, action.radius);
 
         // const playgroundObject = yield axios('/', {
@@ -47,17 +42,40 @@ function* postPlayground (action) {
         console.log('POST_PLAYGROUND:',action.payload);
         yield axios.post('/api/park', action.payload).then((response)=>{
             console.log('Response:',response);
-        }).catch((error)=>{
-            console.log('Error in POST:',error);
         })
     }catch(error){
         console.log('Error in postPlayground:',error);
     }
 }
 
+function* addDescription (action) {
+    try{
+        yield axios.put('/api/park',action.payload);
+        yield console.log('Park description updated');
+        yield getParksInState( {payload: action.payload.postal_code} );
+    }catch(error){
+        console.log('Error in addDescription:',error);
+    }
+}
+
+function* getParksInState (action) {
+    try{
+        yield console.log('getParksInState called with action.payload=',action.payload);
+        // yield put({type: 'CLEAR_PARKS'});
+        const response = yield axios.get(`/api/park/${action.payload}`);
+        const parksInState = response.data;
+        console.log('Parks in state:', parksInState);
+        yield put({type: 'SET_PARKS', payload: parksInState});
+    }catch(error){
+        console.log('Error in getParksInState');
+    }
+}
+
 function* playgroundSaga () {
     yield takeEvery('SEARCH_PLAYGROUNDS', searchParks);
     yield takeLatest('POST_PLAYGROUND', postPlayground);
+    yield takeEvery('ADD_DESCRIPTION', addDescription);
+    yield takeEvery('GET_PARKS_IN_STATE', getParksInState);
 }
 
 

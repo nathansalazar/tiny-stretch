@@ -4,6 +4,7 @@ import login from './loginReducer';
 import route from './routeReducer';
 import checkpoints from './checkpointReducer';
 import playgrounds from './playgroundReducer';
+import parksInState from './parksInStateReducer';
 
 //Lets make a bigger object for our store, with the objects from our reducers.
 //This is why we get this.props.reduxStore.user.isLoading
@@ -13,6 +14,7 @@ const store = combineReducers({
   route,
   checkpoints,
   playgrounds,
+  parksInState,
 });
 
 export default store;

@@ -47,7 +47,7 @@ class SearchForm extends Component {
         return (
             <div>
                 {/* <Script 
-                    url="https://cors.io?https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY&libraries=places"
+                    url={this.props.url}
                     onLoad={this.handleScriptLoad}
                     onError={()=>{console.log('ERROR!')}}
                 /> */}
@@ -57,10 +57,6 @@ class SearchForm extends Component {
                     <input placeholder="radius (miles)" type="number" onChange={this.handleChange('radius')} />
                     <input type="submit" />
                 </form>
-                <pre>
-
-                {JSON.stringify(this.state, null, 2)}
-                </pre>
             </div>
         )
     }

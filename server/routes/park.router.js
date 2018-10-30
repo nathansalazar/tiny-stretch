@@ -4,7 +4,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.get('/:postal_code', (req, res) => {
-    let query = `SELECT * FROM park WHERE "state"=$1;`;
+    let query = `SELECT * FROM park WHERE "state"=$1 ORDER BY "id";`;
     pool.query(query, [req.params.postal_code]).then((results) => {
         res.send(results.rows);
     }).catch((error) => {
@@ -33,8 +33,17 @@ router.post('/', (req, res) => {
             })
         }
     })
+})
 
-
+router.put('/', (req,res) => {
+    console.log('req.body for put:',req.body);
+    const query = `UPDATE park SET "description"=$1, added_by=$2 WHERE "id"=$3`;
+    pool.query(query, [req.body.description, req.body.userId, req.body.park]).then(()=>{
+        console.log('PUT successful!');
+        res.sendStatus(200);
+    }).catch((error)=>{
+        console.log('Error in PUT:',error);
+    })
 })
 
 
