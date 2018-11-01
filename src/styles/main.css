@@ -17,12 +17,13 @@ body {
 }
 
 form {
-    background-color: #dbd5d5;
+    background-color: #f8f5f5;
     width: 30%;
     height: auto;
     margin: 20px auto;
     padding: 25px;
     border-radius: 2px;
+    opacity: .9;
 }
 
 #playgroundForm{
@@ -104,7 +105,15 @@ table, tr, td{
     border-collapse: collapse;
 }
 
+
 .card{
-    width: 300px;
+    width: 35%;
     border: outset;
+}
+
+.UserReviews{
+    width: 60%;
+    border: outset;
+    float: right;
+    min-height: 300px;
 }

@@ -18,6 +18,7 @@ import UserPage from './components/UserPage/UserPage';
 import SearchPage from './components/SearchPage/SearchPage';
 import AddPlaygroundPage from './components/AddPlaygroundPage/AddPlaygroundPage';
 import SearchByStatePage from './components/searchByStatePage/searchByStatePage';
+import background from './styles/cool_playground.JPG';
 
 import './styles/main.css';
 
@@ -32,41 +33,41 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Header title="Tiny Stretch" />
-        <Router>
-          <Switch>
-            <Redirect exact from="/" to="/home" />
-            <Route
-              path="/home"
-              component={LoginPage}
-            />
-            <Route
-              path="/register"
-              component={RegisterPage}
-            />
-            <ProtectedRoute
-              path="/user"
-              component={UserPage}
-            />
-            <Route
-              path="/search"
-              component={SearchPage}
-            />
-            <Route
-              path="/add_playground"
-              component={AddPlaygroundPage}
-            />
-            <Route
-              path="/search_by_state"
-              component={SearchByStatePage}
-            />
-            {/* OTHERWISE (no path!) */}
-            <Route render={() => <h1>404</h1>} />
+        <div>
+          <Header title="Tiny Stretch" />
+          <Router>
+            <Switch>
+              <Redirect exact from="/" to="/home" />
+              <Route
+                path="/home"
+                component={LoginPage}
+              />
+              <Route
+                path="/register"
+                component={RegisterPage}
+              />
+              <ProtectedRoute
+                path="/user"
+                component={UserPage}
+              />
+              <Route
+                path="/search"
+                component={SearchPage}
+              />
+              <Route
+                path="/add_playground"
+                component={AddPlaygroundPage}
+              />
+              <Route
+                path="/search_by_state"
+                component={SearchByStatePage}
+              />
+              {/* OTHERWISE (no path!) */}
+              <Route render={() => <h1>404</h1>} />
 
-          </Switch>
-        </Router>
-      </div>
+            </Switch>
+          </Router>
+        </div>
     )
   }
 }

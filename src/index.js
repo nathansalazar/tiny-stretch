@@ -31,7 +31,7 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={store} >
     <App />
   </Provider>,
   document.getElementById('react-root'),

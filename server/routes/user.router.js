@@ -42,4 +42,12 @@ router.get('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.get('/usernames',(req,res)=>{
+  pool.query(`SELECT "username" FROM person ORDER BY "id";`).then((results)=>{
+    res.send(results.rows);
+  }).catch((error)=>{
+    console.log('Error getting usernames:',error);
+  })
+})
+
 module.exports = router;
