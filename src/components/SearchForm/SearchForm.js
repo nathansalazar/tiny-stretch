@@ -51,10 +51,12 @@ class SearchForm extends Component {
                     onLoad={this.handleScriptLoad}
                     onError={()=>{console.log('ERROR!')}}
                 /> */}
+                {/* <h2 style={{width: "50%", margin: "auto"}}>Where are you going?</h2> */}
                 <form onSubmit={this.handleSubmit} className="autocomplete">
-                    <input placeholder="origin" id="origin" type="text" onChange={this.handleChange('origin')} />
-                    <input placeholder="destination" id="destination" type="text" onChange={this.handleChange('destination')} /> {/*onChange={this.handleChange('destination')}*/}
-                    <input placeholder="radius (miles)" type="number" onChange={this.handleChange('radius')} />
+                <h2 style={{ margin: "auto", color: 'black'}}>Where are you going?</h2>
+                    <input placeholder="Origin" id="origin" type="text" onChange={this.handleChange('origin')} />
+                    <input placeholder="Destination" id="destination" type="text" onChange={this.handleChange('destination')} /> {/*onChange={this.handleChange('destination')}*/}
+                    <input placeholder="Search Radius (miles)" type="number" onChange={this.handleChange('radius')} />
                     <input type="submit" />
                 </form>
             </div>

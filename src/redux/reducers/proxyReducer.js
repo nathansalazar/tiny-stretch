@@ -1,7 +1,7 @@
-const proxyReducer = (state='https://cors-anywhere.herokuapp.com/',action) => {
+const proxyReducer = (state=0,action) => {
     switch (action.type) {
         case 'SWITCH_PROXY':
-            return 'https://cors.io/?';
+            return (state+1)%3;
         default:
             return state;
     }

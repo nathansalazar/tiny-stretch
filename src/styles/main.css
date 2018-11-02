@@ -3,6 +3,10 @@ body {
     color: white;
 }
 
+.card{
+    color: black;
+}
+
 .instructions h1 {
     font-size: 50px;
     font-weight: 700;
@@ -62,8 +66,9 @@ input[type="submit"] {
 
 .navbar {
   /* background-color: #61ce5e; */
-  width: 70%;
-  margin: auto;
+  width: 40%;
+  margin-right: auto;
+  margin-left: 30%;
   padding: 5px;
   border-radius: 0px;
 }
@@ -104,8 +109,8 @@ td{
     max-width: 500px;
 }
 
-table, tr, td{
-    border: 1px solid black;
+tr{
+    border-bottom: 1px solid #ddd;
     border-collapse: collapse;
 }
 

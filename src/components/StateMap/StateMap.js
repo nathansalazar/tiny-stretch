@@ -69,7 +69,7 @@ class StateMap extends Component {
     }
 
     handleSubmit = () => {
-        const firstReview = this.state.selectedPark.description == undefined;
+        const firstReview = this.state.selectedPark.description === undefined;
         this.props.dispatch({
             type: 'ADD_DESCRIPTION',
             payload: {
@@ -106,7 +106,7 @@ class StateMap extends Component {
                 <p style={{ color: 'white' }}>Parks in state: {this.props.parks.length}</p>
                 <div className="container">
                     <div className="card" style={{backgroundColor: 'transparent'}}>
-                        <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px" }} class="card-img-top" alt="" />
+                        <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px" }} className="card-img-top" alt="" />
                         <div className="card-body">
                             <h4 className="card-title">{this.state.selectedPark.name}</h4>
                             {this.state.selectedPark.description &&

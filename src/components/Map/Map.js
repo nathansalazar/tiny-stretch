@@ -179,7 +179,7 @@ class Map extends Component {
         DirectionsService.route({
             origin: route.origin,
             destination: route.destination,
-            waypoints: this.state.waypoints.map(waypoint => {return {location: waypoint.location} }),
+            waypoints: this.state.waypoints.map(waypoint => { return { location: waypoint.location } }),
             optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.DRIVING
         }, (result, status) => {
@@ -243,54 +243,61 @@ class Map extends Component {
         return (
             <div >
                 <div>
-                        <GoogleMap
-                            defaultCenter={this.props.location}
-                            defaultZoom={4}
-                        >
-                            {this.state.directions && <DirectionsRenderer directions={this.state.directions} />}
-                            {/* {this.props.state.checkpoints.map((checkpoint, index) =>
+                    <GoogleMap
+                        defaultCenter={this.props.location}
+                        defaultZoom={4}
+                    >
+                        {this.state.directions && <DirectionsRenderer directions={this.state.directions} />}
+                        {/* {this.props.state.checkpoints.map((checkpoint, index) =>
                             <Marker key={index} position={checkpoint} title={JSON.stringify(checkpoint)} label='Search' />
                         )} */}
-                            {this.props.state.playgrounds.map((playground, index) =>
-                                <Marker key={index} position={playground.location} title={playground.name} onClick={() => this.onMarkerClick(playground)} />)}
+                        {this.props.state.playgrounds.map((playground, index) =>
+                            <Marker key={index} position={playground.location} title={playground.name} onClick={() => this.onMarkerClick(playground)} />)}
 
-                            {this.props.state.checkpoints.map((checkpoint, index) => <Circle key={index}
-                                center={checkpoint} radius={this.props.state.route.radius} options={{ fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1' }} />)}
-                        </GoogleMap>
+                        {this.props.state.checkpoints.map((checkpoint, index) => <Circle key={index}
+                            center={checkpoint} radius={this.props.state.route.radius} options={{ fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1' }} />)}
+                    </GoogleMap>
                     <div className="container" >
-                        <h3 onClick={this.switchProxy}>More Info</h3>
+                        <h3 onClick={this.switchProxy} style={{width: '50%', margin: 'auto'}}>Click a Marker for More Info</h3>
                         <div className="row justify-content-between" >
                             {/* this.state.selectedMarker.name && */}
-                            {<div className="col-5 card" style={{backgroundColor: 'transparent'}}>
-                                <h4>{this.state.selectedMarker.name}</h4>
-                                <p>{this.state.address}</p>
-                                <img src={photo} style={{ maxWidth: "300px" }} />
+                            {<div className="col-5 card" style={{ background: 'linear-gradient(-45deg,green,white)' }}>
+                                <h4 style={{textAlign: 'center'}}>{this.state.selectedMarker.name}</h4>
+                                <p style={{textAlign: 'center'}}>{this.state.address}</p>
+                                <img src={photo} style={{ maxWidth: "300px", margin: 'auto' }} />
+
+                                <button onClick={this.addPark} style={{ maxWidth: "300px", margin: 'auto' }}>Add this park to your trip</button>
+                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)} style={{ maxWidth: "300px", margin: 'auto' }}>Recalculate Your Route</button>
+                                {this.state.waypoints.length>0 &&
+                                    <div style={{ maxWidth: "300px", margin: 'auto' }} >
+                                        <p>Parks at which you are stopping:</p>
+                                        <ul>
+                                            {this.state.waypoints.map((waypoint, index) => <li key={index}>{waypoint.name}</li>)}
+                                        </ul>
+                                    </div>}
+                            </div>}
+                            {/* this.state.selectedMarker.description && */}
+                            {<div className="col-6 card" style={{ color: 'black', background: 'linear-gradient(-45deg,green,white)'}}>
+                                <h3 style={{textAlign: 'center'}}>User Reviews</h3>
                                 {/* show all descriptions */}
                                 {this.state.selectedMarker.description &&
-                                    <table><tbody>
+                                    <table><tbody style={{ color: 'black' }}>
                                         {this.state.selectedMarker.description.map((text, index) => (<tr key={index}>
                                             <td>
                                                 {this.props.state.usernames[this.state.selectedMarker.user_id[index] - 1]}: {text}
                                             </td></tr>))}
                                     </tbody></table>}
-
-                                <button onClick={this.addPark}>Add this park to your trip</button>
-                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)}>Recalculate Your Route</button>
-                            </div>}
-                            {/* this.state.selectedMarker.description && */}
-                            {<div className="col-6 card" style={{color: 'black'}}>
-                                <p>User Reviews</p>
                             </div>}
 
-                            <p>Parks at which you are stopping:</p>
+                            {/* <p>Parks at which you are stopping:</p>
                             <ul>
                                 {this.state.waypoints.map((waypoint, index) => <li key={index}>{JSON.stringify(waypoint.name)}</li>)}
-                            </ul>
+                            </ul> */}
                         </div>
                         {/* <p>Parks currently in waypoints: {JSON.stringify(this.state.waypoints)}</p> */}
                     </div>
                     {/* this table shows the directions */}
-                    <table>
+                    <table style={{ background: 'linear-gradient(-45deg,green,white)' }} >
                         <tbody>
                             {this.state.instructions.map((instruction, index) => {
                                 if (instruction.finalStep) { /*if it's the final step, put text in bold */

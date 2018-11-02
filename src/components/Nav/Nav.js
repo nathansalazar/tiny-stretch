@@ -19,7 +19,9 @@ class Nav extends React.Component {
   }
 
   render() {
-    return (<div className="navbar">
+    return (<div style={{ width: '40%',
+      marginRight: 'auto',
+      marginLeft: '30%',}}>
       <div>
         <ul>
           {this.props.user.userName ?
@@ -52,7 +54,7 @@ class Nav extends React.Component {
           </li>
           {this.props.user.userName && 
           <li onClick={this.logout}>
-            <Link to="/">
+            <Link to="/" onClick={this.clearStore}>
               Logout
             </Link>
           </li>}
