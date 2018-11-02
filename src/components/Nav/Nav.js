@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { triggerLogout } from '../../redux/actions/loginActions';
 
 
 class Nav extends React.Component {
@@ -14,23 +14,28 @@ class Nav extends React.Component {
     this.props.dispatch({ type: 'CLEAR_ROUTE' });
   }
 
+  logout = () => {
+    this.props.dispatch(triggerLogout());
+  }
+
   render() {
     return (<div className="navbar">
       <div>
         <ul>
           {this.props.user.userName ?
-            <li>
-              <Link to="/user" onClick={this.clearStore}>
-                User Home
-        </Link>
-            </li> :
+        //     <li >
+        //       <Link to="/user" onClick={this.clearStore}>
+        //         User Home
+        // </Link>
+        //     </li> 
+        <li></li>:
             <li>
               <Link to="/">
                 Login
       </Link>
             </li>
           }
-          <li>
+          <li >
             <Link to="/search" onClick={this.clearStore}>
               Search Page
           </Link>
@@ -45,6 +50,12 @@ class Nav extends React.Component {
               Add Playground
           </Link>
           </li>
+          {this.props.user.userName && 
+          <li onClick={this.logout}>
+            <Link to="/">
+              Logout
+            </Link>
+          </li>}
         </ul>
       </div>
     </div>)

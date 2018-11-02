@@ -57,6 +57,7 @@ class RegisterPage extends Component {
         <h2
           className="alert"
           role="alert"
+          style={{color: 'black'}}
         >
           {this.state.message}
         </h2>
@@ -69,7 +70,7 @@ class RegisterPage extends Component {
     return (
       <div>
         {this.renderAlert()}
-        <form onSubmit={this.registerUser}>
+        <form onSubmit={this.registerUser} style={{color: 'black'}}>
           <h1>Register User</h1>
           <div>
             <label htmlFor="username">

@@ -1,15 +1,18 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family: 'palatino','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
 }
 
 .instructions h1 {
-    font-size: 24px;
+    font-size: 50px;
     font-weight: 700;
     text-align: center;
+    font-family: 'Paytone One','palatino';
+    color: white;
 }
 
 .instructions {
-    background-color: #61ce5e;
+    /* background-color: #61ce5e; */
     padding: 5px;
     width: 70%;
     margin: auto;
@@ -58,7 +61,7 @@ input[type="submit"] {
 }
 
 .navbar {
-  background-color: #61ce5e;
+  /* background-color: #61ce5e; */
   width: 70%;
   margin: auto;
   padding: 5px;
@@ -70,6 +73,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    text-align: center;
 }
 
 li {
@@ -82,13 +86,13 @@ li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-
 }
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
     text-decoration: underline;
     color: #eee;
+    background-color: grey;
 }
 
 table{
@@ -116,4 +120,8 @@ table, tr, td{
     border: outset;
     float: right;
     min-height: 300px;
+}
+
+.select{
+    color: black;
 }

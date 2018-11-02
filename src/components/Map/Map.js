@@ -179,7 +179,7 @@ class Map extends Component {
         DirectionsService.route({
             origin: route.origin,
             destination: route.destination,
-            waypoints: this.state.waypoints,
+            waypoints: this.state.waypoints.map(waypoint => {return {location: waypoint.location} }),
             optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.DRIVING
         }, (result, status) => {
@@ -191,11 +191,13 @@ class Map extends Component {
                 console.log(this.state.directions);
                 let legs = result.routes[0].legs;
                 let directions = [];
+                // let waypointsIndex = 0;
                 for (let leg of legs) {
                     for (let i = 0; i < leg.steps.length; i++) {
                         if (i === leg.steps.length - 1) {
                             directions.push({ text: leg.steps[i].instructions, distance: leg.steps[i].distance.text, finalStep: true });
-                            directions.push({ text: `Arrive at `, distance: null, finalStep: true });
+                            // directions.push({ text: `Arrive at ${this.state.waypoints[waypointsIndex].name}`, distance: null, finalStep: true });
+                            // waypointsIndex++;
                         } else {
                             directions.push({ text: leg.steps[i].instructions, distance: leg.steps[i].distance.text, finalStep: false });
                         }
@@ -256,10 +258,10 @@ class Map extends Component {
                                 center={checkpoint} radius={this.props.state.route.radius} options={{ fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1' }} />)}
                         </GoogleMap>
                     <div className="container" >
-                        <h3>More Info</h3>
+                        <h3 onClick={this.switchProxy}>More Info</h3>
                         <div className="row justify-content-between" >
                             {/* this.state.selectedMarker.name && */}
-                            {<div className="col-5 card">
+                            {<div className="col-5 card" style={{backgroundColor: 'transparent'}}>
                                 <h4>{this.state.selectedMarker.name}</h4>
                                 <p>{this.state.address}</p>
                                 <img src={photo} style={{ maxWidth: "300px" }} />
@@ -276,7 +278,7 @@ class Map extends Component {
                                 <button onClick={() => this.routeWithWaypoints(this.props.state.route)}>Recalculate Your Route</button>
                             </div>}
                             {/* this.state.selectedMarker.description && */}
-                            {<div className="col-6 card">
+                            {<div className="col-6 card" style={{color: 'black'}}>
                                 <p>User Reviews</p>
                             </div>}
 
@@ -285,7 +287,7 @@ class Map extends Component {
                                 {this.state.waypoints.map((waypoint, index) => <li key={index}>{JSON.stringify(waypoint.name)}</li>)}
                             </ul>
                         </div>
-                        <p>Parks currently in waypoints: {JSON.stringify(this.state.waypoints)}</p>
+                        {/* <p>Parks currently in waypoints: {JSON.stringify(this.state.waypoints)}</p> */}
                     </div>
                     {/* this table shows the directions */}
                     <table>
@@ -293,7 +295,7 @@ class Map extends Component {
                             {this.state.instructions.map((instruction, index) => {
                                 if (instruction.finalStep) { /*if it's the final step, put text in bold */
                                     return (<tr key={index}>
-                                        <td><b>{this.strip(instruction.text)}</b></td>
+                                        <td><b><font size="+2">{this.strip(instruction.text)}</font></b></td>
                                         <td>{instruction.distance}</td>
                                     </tr>);
                                 } else {
@@ -307,9 +309,9 @@ class Map extends Component {
                     </table>
                 </div>
                 <br />
-                <button onClick={this.switchProxy}>switch proxy</button>
+                {/* <button onClick={this.switchProxy}>switch proxy</button> */}
                 <br />
-                <pre>{JSON.stringify(this.props, null, 2)}</pre>
+                {/* <pre>{JSON.stringify(this.state, null, 2)}</pre> */}
             </div>
         );
     }

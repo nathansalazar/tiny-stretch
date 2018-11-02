@@ -84,11 +84,15 @@ class StateMap extends Component {
 
     render() {
         return (
-            <div>
-                <Select
-                    options={this.state.allStates.map(state => ({ label: state.full_name, value: state.id, selectedState: state }))}
-                    onChange={(option) => this.handleChange(option.selectedState)}
-                />
+            <div >
+                <div style={{ width: '300px', margin: 'auto' }}>
+                    <br />
+                    <Select
+                        options={this.state.allStates.map(state => ({ label: state.full_name, value: state.id, selectedState: state }))}
+                        onChange={(option) => this.handleChange(option.selectedState)}
+                        className="select"
+                    />
+                </div>
                 <GoogleMap
                     center={{ lat: Number(this.state.selectedState.center_lat), lng: Number(this.state.selectedState.center_lng) }}
                     zoom={this.state.selectedState.zoom}
@@ -98,37 +102,41 @@ class StateMap extends Component {
                         title={park.name}
                         onClick={() => this.handleClick(park)} />)}
                 </GoogleMap>
-                <p>Parks in state: {this.props.parks.length}</p>
-                <div className="card">
-                    <h4>{this.state.selectedPark.name}</h4>
-                    <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px" }} alt="" />
 
-                    {this.state.selectedPark.description &&
-                        <table><tbody>
-                            {this.state.selectedPark.description.map((text, index) => (<tr key={index}>
-                                <td>
-                                    {this.props.usernames[this.state.selectedPark.user_id[index] - 1]}: {text}
-                                </td></tr>))}
-                        </tbody></table>}
-                    {// this.state.selectedPark.name ?  // is a park selected?
-                        //         this.props.user.id ? //if we're not adding a description, is the user logged in?
-                        //             <button onClick={()=>this.setState({ addDescription: true })}>Add description</button> :
-                        //             <span></span> :
-                        //     <span></span>}
-                    }
-                    {this.state.selectedPark.name &&
-                        <button onClick={() => this.setState({ addDescription: true })}>Add Description</button>}
+                <p style={{ color: 'white' }}>Parks in state: {this.props.parks.length}</p>
+                <div className="container">
+                    <div className="card" style={{backgroundColor: 'transparent'}}>
+                        <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px" }} class="card-img-top" alt="" />
+                        <div className="card-body">
+                            <h4 className="card-title">{this.state.selectedPark.name}</h4>
+                            {this.state.selectedPark.description &&
+                                <table><tbody>
+                                    {this.state.selectedPark.description.map((text, index) => (<tr key={index}>
+                                        <td>
+                                            {this.props.usernames[this.state.selectedPark.user_id[index] - 1]}: {text}
+                                        </td></tr>))}
+                                </tbody></table>}
+                            {// this.state.selectedPark.name ?  // is a park selected?
+                                //         this.props.user.id ? //if we're not adding a description, is the user logged in?
+                                //             <button onClick={()=>this.setState({ addDescription: true })}>Add description</button> :
+                                //             <span></span> :
+                                //     <span></span>}
+                            }
+                            {this.state.selectedPark.name &&
+                                <button onClick={() => this.setState({ addDescription: true })}>Add Description</button>}
 
-                    {/* {this.props.user.id === this.state.selectedPark.added_by &&
+                            {/* {this.props.user.id === this.state.selectedPark.added_by &&
                         <p>You added this park!</p>} */}
-                    {/* Later we can set it up so that parks reviewed by the user show up in a different color */}
+                            {/* Later we can set it up so that parks reviewed by the user show up in a different color */}
 
-                    {this.state.addDescription &&
-                        <div><textarea rows="4" cols="40" onChange={this.setDescription}></textarea>
-                            <button onClick={this.handleSubmit}>Submit</button></div>}
+                            {this.state.addDescription &&
+                                <div><textarea rows="4" cols="20" onChange={this.setDescription}></textarea>
+                                    <button onClick={this.handleSubmit}>Submit</button></div>}
+                        </div>
+                    </div>
                 </div>
-                <pre>{JSON.stringify(this.props, null, 2)}</pre>
-                <pre>{JSON.stringify(this.state, null, 2)}</pre>
+                {/* <pre>{JSON.stringify(this.props, null, 2)}</pre>
+                <pre>{JSON.stringify(this.state, null, 2)}</pre> */}
             </div>
         );
     }

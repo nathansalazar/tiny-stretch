@@ -57,7 +57,7 @@ class LoginPage extends Component {
       <div>
         <NavGuest />
         {this.renderAlert()}
-        <form onSubmit={this.login}>
+        <form onSubmit={this.login} style={{color: 'black'}}>
           <h1>Login</h1>
           <div>
             <label htmlFor="username">
