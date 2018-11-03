@@ -11,12 +11,13 @@ class AddPlaygroundMap extends Component {
             lat: this.props.location.lat,
             lng: this.props.location.lng,
         },
+        selectedState: { center_lat: 41, center_lng: -98, zoom: 4 },
         zoom: 4,
         mapClicked: false,
         name: '',
         description: '',
         state: '',
-        states: []
+        allStates: []
     }
 
     componentDidMount = () => {
@@ -28,7 +29,9 @@ class AddPlaygroundMap extends Component {
     }
 
     handleClick = (event) => {
-        this.setState({ location: { lat: event.latLng.lat(), lng: event.latLng.lng() }, zoom: Math.max(10, this.gmap.props.zoom), mapClicked: true });
+        this.setState({ location: { lat: event.latLng.lat(), lng: event.latLng.lng() }, 
+            selectedState: { center_lat: event.latLng.lat(), center_lng: event.latLng.lng(), zoom: this.gmap.props.zoom },
+            zoom: Math.max(10, this.gmap.props.zoom), mapClicked: true });
         console.log('You clicked on', this.state);
         // console.log(this.gmap.__reactInternalMemoizedMaskedChildContext.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.zoom);
     }
@@ -38,7 +41,7 @@ class AddPlaygroundMap extends Component {
     }
 
     handleStateSelection = (state) => {
-        this.setState({ state: state.postal_code });
+        this.setState({ state: state.postal_code, selectedState: state });
     }
 
     handleSubmit = (event) => {
@@ -56,12 +59,21 @@ class AddPlaygroundMap extends Component {
     render() {
         return <div>
             <GoogleMap
-                center={this.state.location}
-                zoom={this.state.zoom}
+                center={{ lat: Number(this.state.selectedState.center_lat), lng: Number(this.state.selectedState.center_lng) }}
+                zoom={this.state.selectedState.zoom}
                 onClick={this.handleClick}
                 ref={(googleMap) => this.gmap = googleMap}>
                 {this.state.mapClicked && <Marker position={this.state.location} />}
             </GoogleMap>
+            <br />
+            <div style={{ width: '300px', margin: 'auto', color: 'black' }}>
+                <Select
+                    options={this.state.allStates.map(state => ({ label: state.full_name, value: state.id, selectedState: state }))}
+                    onChange={(option) => this.handleStateSelection(option.selectedState)}
+                    // className="col-5 select"
+                />
+            </div>
+
             {this.state.mapClicked ?
                 <div >
                     <div className="container" style={{ width: "300px", margin: "auto" }}>
@@ -91,10 +103,10 @@ class AddPlaygroundMap extends Component {
                     </div>
                 </div> :
                 <p>Click on the map to get started</p>
-                    }
-            {/* <pre>{JSON.stringify(this.state, null, 2)}</pre> */}
-                </div>
-    }
             }
-            
+            <pre style={{color: 'white'}}>{JSON.stringify(this.state, null, 2)}</pre>
+        </div>
+    }
+}
+
 export default connect()(withScriptjs(withGoogleMap(AddPlaygroundMap)));

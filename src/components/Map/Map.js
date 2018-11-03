@@ -258,7 +258,8 @@ class Map extends Component {
                             center={checkpoint} radius={this.props.state.route.radius} options={{ fillOpacity: "0.1", strokeColor: 'green', strokeOpacity: '0.1' }} />)}
                     </GoogleMap>
                     <div className="container" >
-                        <h3 onClick={this.switchProxy} style={{width: '50%', margin: 'auto'}}>Click a Marker for More Info</h3>
+                    <br />
+                        <h3 onClick={this.switchProxy} style={{width: '50%', marginLeft: '30%'}}><font size="+3"><b>Click a Marker for More Info</b></font></h3>
                         <div className="row justify-content-between" >
                             {/* this.state.selectedMarker.name && */}
                             {<div className="col-5 card" style={{ background: 'linear-gradient(-45deg,green,white)' }}>
@@ -266,16 +267,21 @@ class Map extends Component {
                                 <p style={{textAlign: 'center'}}>{this.state.address}</p>
                                 <img src={photo} style={{ maxWidth: "300px", margin: 'auto' }} />
 
-                                <button onClick={this.addPark} style={{ maxWidth: "300px", margin: 'auto' }}>Add this park to your trip</button>
-                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)} style={{ maxWidth: "300px", margin: 'auto' }}>Recalculate Your Route</button>
+                                <br />
+                                <button onClick={this.addPark} style={{ maxWidth: "300px", margin: 'auto' }} className="btn btn-secondary">Add this park to your trip</button>
+                                <br />
+                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)} className="btn btn-secondary" style={{ maxWidth: "300px", margin: 'auto' }}>Map your new route</button>
                                 {this.state.waypoints.length>0 &&
                                     <div style={{ maxWidth: "300px", margin: 'auto' }} >
-                                        <p>Parks at which you are stopping:</p>
-                                        <ul>
-                                            {this.state.waypoints.map((waypoint, index) => <li key={index}>{waypoint.name}</li>)}
-                                        </ul>
+                                        <p>Parks on Your Route:</p>
+                                        <table>
+                                            <tbody>
+                                            {this.state.waypoints.map((waypoint, index) => <tr key={index}><td>{waypoint.name}</td></tr>)}
+                                            </tbody>
+                                        </table>
                                     </div>}
                             </div>}
+                            <br />
                             {/* this.state.selectedMarker.description && */}
                             {<div className="col-6 card" style={{ color: 'black', background: 'linear-gradient(-45deg,green,white)'}}>
                                 <h3 style={{textAlign: 'center'}}>User Reviews</h3>
@@ -297,7 +303,7 @@ class Map extends Component {
                         {/* <p>Parks currently in waypoints: {JSON.stringify(this.state.waypoints)}</p> */}
                     </div>
                     {/* this table shows the directions */}
-                    <table style={{ background: 'linear-gradient(-45deg,green,white)' }} >
+                    <table style={{ background: 'linear-gradient(-45deg,green,white)', color: 'black' }} >
                         <tbody>
                             {this.state.instructions.map((instruction, index) => {
                                 if (instruction.finalStep) { /*if it's the final step, put text in bold */

@@ -69,7 +69,7 @@ class StateMap extends Component {
     }
 
     handleSubmit = () => {
-        const firstReview = this.state.selectedPark.description === undefined;
+        const firstReview = this.state.selectedPark.description === null;
         this.props.dispatch({
             type: 'ADD_DESCRIPTION',
             payload: {
@@ -80,6 +80,7 @@ class StateMap extends Component {
                 firstReview: firstReview
             }
         });
+        this.setState({addDescription: false});
     }
 
     render() {
@@ -104,40 +105,55 @@ class StateMap extends Component {
                 </GoogleMap>
 
                 <p style={{ color: 'white' }}>Parks in state: {this.props.parks.length}</p>
+
+
+
                 <div className="container">
-                    <div className="card" style={{backgroundColor: 'transparent'}}>
-                        <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px" }} className="card-img-top" alt="" />
-                        <div className="card-body">
-                            <h4 className="card-title">{this.state.selectedPark.name}</h4>
-                            {this.state.selectedPark.description &&
-                                <table><tbody>
-                                    {this.state.selectedPark.description.map((text, index) => (<tr key={index}>
-                                        <td>
-                                            {this.props.usernames[this.state.selectedPark.user_id[index] - 1]}: {text}
-                                        </td></tr>))}
-                                </tbody></table>}
-                            {// this.state.selectedPark.name ?  // is a park selected?
-                                //         this.props.user.id ? //if we're not adding a description, is the user logged in?
-                                //             <button onClick={()=>this.setState({ addDescription: true })}>Add description</button> :
-                                //             <span></span> :
-                                //     <span></span>}
-                            }
-                            {this.state.selectedPark.name &&
-                                <button onClick={() => this.setState({ addDescription: true })}>Add Description</button>}
-
-                            {/* {this.props.user.id === this.state.selectedPark.added_by &&
-                        <p>You added this park!</p>} */}
-                            {/* Later we can set it up so that parks reviewed by the user show up in a different color */}
-
-                            {this.state.addDescription &&
-                                <div><textarea rows="4" cols="20" onChange={this.setDescription}></textarea>
-                                    <button onClick={this.handleSubmit}>Submit</button></div>}
-                        </div>
+                    <div className="row justify-content-between" >
+                        {/* this.state.selectedPark.name && */}
+                        {this.state.selectedPark.name &&
+                            <div className="col-5 card" style={{ background: 'linear-gradient(-45deg,green,white)' }}>
+                                <h4 style={{ textAlign: 'center' }}>{this.state.selectedPark.name}</h4>
+                                <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px", margin: 'auto' }} />
+                                <br />
+                            </div>}
+                        {/* this.state.selectedPark.description && */}
+                        {this.state.selectedPark.name ?
+                            <div className="col-6 card" style={{ color: 'black', background: 'linear-gradient(-45deg,green,white)' }}>
+                                <h3 style={{ textAlign: 'center' }}>User Reviews</h3>
+                                {/* show all descriptions */}
+                                {this.state.selectedPark.description &&
+                                    <div>
+                                    <table><tbody style={{ color: 'black' }}>
+                                        {this.state.selectedPark.description.map((text, index) => (<div><tr key={index}>
+                                            <td><b><font size="+1">
+                                                {this.props.usernames[this.state.selectedPark.user_id[index] - 1]}
+                                            </font></b></td></tr>
+                                            <tr key={(index + 1) * 100}><td><font size="-1">{text}</font></td></tr>
+                                            <tr key={(index + 2) * 200}><td></td></tr></div>))}
+                                    </tbody></table>
+                                </div>}
+                                {!this.state.addDescription && 
+                                <button className="btn btn-secondary" onClick={() => this.setState({ addDescription: true })} 
+                                    style={{ maxWidth: "300px", margin: 'auto' }}>Add a review</button>}
+                                {this.state.addDescription &&
+                                <div><textarea rows="4" cols="40" onChange={this.setDescription}></textarea>
+                                    <button onClick={this.handleSubmit} className="btn btn-secondary">Submit</button></div>}
+                            </div> :
+                    <noscript></noscript>}
                     </div>
                 </div>
-                {/* <pre>{JSON.stringify(this.props, null, 2)}</pre>
-                <pre>{JSON.stringify(this.state, null, 2)}</pre> */}
+
+            {/* <pre style={{color: 'white'}}>{JSON.stringify(this.state,null,2)}</pre> */}
+
             </div>
+
+
+            // {this.props.user.id === this.state.selectedPark.added_by &&
+            //     <p>You added this park!</p>} 
+            //          Later we can set it up so that parks reviewed by the user show up in a different color 
+
+
         );
     }
 }
@@ -151,4 +167,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(withScriptjs(withGoogleMap(StateMap)));
-// export default StateMap;
