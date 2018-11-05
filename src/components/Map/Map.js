@@ -262,15 +262,15 @@ class Map extends Component {
                         <h3 onClick={this.switchProxy} style={{width: '50%', marginLeft: '30%'}}><font size="+3"><b>Click a Marker for More Info</b></font></h3>
                         <div className="row justify-content-between" >
                             {/* this.state.selectedMarker.name && */}
-                            {<div className="col-5 card" style={{ background: 'linear-gradient(-45deg,green,white)' }}>
+                            {this.state.selectedMarker.name && <div className="col-5 card">
                                 <h4 style={{textAlign: 'center'}}>{this.state.selectedMarker.name}</h4>
                                 <p style={{textAlign: 'center'}}>{this.state.address}</p>
                                 <img src={photo} style={{ maxWidth: "300px", margin: 'auto' }} />
 
                                 <br />
-                                <button onClick={this.addPark} style={{ maxWidth: "300px", margin: 'auto' }} className="btn btn-secondary">Add this park to your trip</button>
+                                <button onClick={this.addPark} className="btn btn-secondary">Add this park to your trip</button>
                                 <br />
-                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)} className="btn btn-secondary" style={{ maxWidth: "300px", margin: 'auto' }}>Map your new route</button>
+                                <button onClick={() => this.routeWithWaypoints(this.props.state.route)} className="btn btn-secondary">Map your new route</button>
                                 {this.state.waypoints.length>0 &&
                                     <div style={{ maxWidth: "300px", margin: 'auto' }} >
                                         <p>Parks on Your Route:</p>
@@ -283,15 +283,18 @@ class Map extends Component {
                             </div>}
                             <br />
                             {/* this.state.selectedMarker.description && */}
-                            {<div className="col-6 card" style={{ color: 'black', background: 'linear-gradient(-45deg,green,white)'}}>
+                            {this.state.selectedMarker.name && <div className="col-6 card" style={{ color: 'black'}}>
                                 <h3 style={{textAlign: 'center'}}>User Reviews</h3>
                                 {/* show all descriptions */}
                                 {this.state.selectedMarker.description &&
                                     <table><tbody style={{ color: 'black' }}>
-                                        {this.state.selectedMarker.description.map((text, index) => (<tr key={index}>
-                                            <td>
-                                                {this.props.state.usernames[this.state.selectedMarker.user_id[index] - 1]}: {text}
-                                            </td></tr>))}
+                                        {this.state.selectedMarker.description.map((text, index) => (<div><tr key={index}>
+                                            <td><b><font size="+1">
+                                                {this.props.state.usernames[this.state.selectedMarker.user_id[index] - 1]}
+                                                </font></b></td></tr>
+                                                <tr key={(index + 1) * 100}><td><font size="-1">{text}</font></td></tr>
+                                                <tr key={(index + 2) * 200}><td></td></tr>
+                                                </div>))}
                                     </tbody></table>}
                             </div>}
 

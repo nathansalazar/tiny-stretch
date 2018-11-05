@@ -3,6 +3,8 @@ import { GoogleMap, withGoogleMap, withScriptjs, Marker } from 'react-google-map
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class AddPlaygroundMap extends Component {
 
@@ -29,9 +31,11 @@ class AddPlaygroundMap extends Component {
     }
 
     handleClick = (event) => {
-        this.setState({ location: { lat: event.latLng.lat(), lng: event.latLng.lng() }, 
+        this.setState({
+            location: { lat: event.latLng.lat(), lng: event.latLng.lng() },
             selectedState: { center_lat: event.latLng.lat(), center_lng: event.latLng.lng(), zoom: this.gmap.props.zoom },
-            zoom: Math.max(10, this.gmap.props.zoom), mapClicked: true });
+            zoom: Math.max(10, this.gmap.props.zoom), mapClicked: true
+        });
         console.log('You clicked on', this.state);
         // console.log(this.gmap.__reactInternalMemoizedMaskedChildContext.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.zoom);
     }
@@ -53,7 +57,10 @@ class AddPlaygroundMap extends Component {
         } else {
             alert('You must enter a name and choose the state');
         }
-
+        this.setState({ name: '', description: '', location: { lat: 0, lng: 0 } });
+        toast.success("Park submitted!", {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
     }
 
     render() {
@@ -70,41 +77,48 @@ class AddPlaygroundMap extends Component {
                 <Select
                     options={this.state.allStates.map(state => ({ label: state.full_name, value: state.id, selectedState: state }))}
                     onChange={(option) => this.handleStateSelection(option.selectedState)}
-                    // className="col-5 select"
+                // className="col-5 select"
                 />
             </div>
+            <br />
 
             {this.state.mapClicked ?
                 <div >
-                    <div className="container" style={{ width: "300px", margin: "auto" }}>
-                        <div className="row">
-                            <input value={this.state.location.lat} readOnly="readOnly" className="col-sm-5" />
-                            <input value={this.state.location.lng} readOnly="readOnly" className="col-sm-5" />
-                        </div>
-                    </div>
                     <div className="container">
-                        <div className="row">
-                            <Select
-                                options={this.state.allStates.map(state => ({ label: state.full_name, value: state.id, selectedState: state }))}
-                                onChange={(option) => this.handleStateSelection(option.selectedState)}
-                                className="col-5 select"
-                            />
-                            <form id="playgroundForm" onSubmit={this.handleSubmit} className="col-5">
-                                {/* <input onChange={this.handleChange('state')} placeholder="State" /> */}
-                                <input onChange={this.handleChange('name')} placeholder="Playground Name" />
-                                {/* <input onChange={this.handleChange('description')} placeholder="Description" /> */}
-                                <input type="button" value="Submit" onClick={this.handleSubmit} />
-                            </form>
-                            <textarea rows="4" cols="50"
-                                form="playgroundForm" onChange={this.handleChange('description')}
-                                placeholder="Description"
-                                style={{ margin: "auto" }} />
+                        <div className="row justify-content-between">
+                            <div className="col-6 card mx-auto">
+                                <div style={{ display: 'inline-block', width: '90%', margin: 'auto' }}>
+                                    <span>Latitude</span>
+                                    <input value={this.state.location.lat.toFixed(3)} readOnly="readOnly" className="col-sm-3" />
+                                    <span>Longitude</span>
+                                    <input value={this.state.location.lng.toFixed(3)} readOnly="readOnly" className="col-sm-3" />
+                                </div>
+                                <input onChange={this.handleChange('name')} value={this.state.name} style={{ width: '330px', margin: 'auto' }} placeholder="Playground Name" />
+                                <br />
+                                <textarea rows="4" cols="40"
+                                    form="playgroundForm" onChange={this.handleChange('description')}
+                                    value={this.state.description} placeholder="Description"
+                                    style={{ margin: "auto" }} />
+                                <br />
+                                <button className="btn btn-secondary" onClick={this.handleSubmit} >Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div> :
-                <p>Click on the map to get started</p>
+                <p></p>
             }
-            <pre style={{color: 'white'}}>{JSON.stringify(this.state, null, 2)}</pre>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnVisibilityChange={false}
+                draggable={false}
+                pauseOnHover
+            />
+            {/* <pre style={{ color: 'white' }}>{JSON.stringify(this.state, null, 2)}</pre> */}
         </div>
     }
 }

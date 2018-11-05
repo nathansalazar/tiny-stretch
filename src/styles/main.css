@@ -118,6 +118,7 @@ tr{
 .card{
     width: 35%;
     border: outset;
+    background: linear-gradient(-45deg,green,white);
 }
 
 .UserReviews{
@@ -129,4 +130,9 @@ tr{
 
 .select{
     color: black;
+}
+
+.btn-secondary{
+    max-width: 300px; 
+    margin: auto; 
 }

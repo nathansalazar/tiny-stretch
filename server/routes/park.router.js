@@ -59,6 +59,7 @@ router.post('/', (req, res) => {
 
 //post the first description for a park
 router.post('/description',(req,res)=>{
+    console.log('req.body is:',req.body);
     let query = `INSERT INTO park_description 
         (park_id, description, user_id) VALUES ($1,ARRAY[$2],ARRAY[${req.body.userId}]);`;
     pool.query(query, [req.body.park,req.body.description]).then((results)=>{

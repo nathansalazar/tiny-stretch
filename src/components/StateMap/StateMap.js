@@ -3,6 +3,8 @@ import { GoogleMap, withGoogleMap, withScriptjs, Marker } from 'react-google-map
 import axios from 'axios';
 import Select from 'react-select';
 import { connect } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import { PLAYGROUND_ACTIONS } from '../../redux/actions/playgroundActions';
 
 class StateMap extends Component {
@@ -57,6 +59,13 @@ class StateMap extends Component {
     handleChange = (selectedState) => {
         this.setState({ selectedState: selectedState });
         this.props.dispatch({ type: 'GET_PARKS_IN_STATE', payload: selectedState.postal_code });
+        this.waitToDisplay();
+    }
+
+    waitToDisplay = () => {
+        setTimeout(()=>{toast.info(`${this.props.parks.length} parks in ${this.state.selectedState.full_name}`, {
+            position: toast.POSITION.BOTTOM_RIGHT
+        })},1000)
     }
 
     handleClick = (park) => {
@@ -80,7 +89,7 @@ class StateMap extends Component {
                 firstReview: firstReview
             }
         });
-        this.setState({addDescription: false});
+        this.setState({ addDescription: false });
     }
 
     render() {
@@ -104,7 +113,7 @@ class StateMap extends Component {
                         onClick={() => this.handleClick(park)} />)}
                 </GoogleMap>
 
-                <p style={{ color: 'white' }}>Parks in state: {this.props.parks.length}</p>
+                {/* <p style={{ color: 'white' }}>Parks in state: {this.props.parks.length}</p> */}
 
 
 
@@ -112,39 +121,50 @@ class StateMap extends Component {
                     <div className="row justify-content-between" >
                         {/* this.state.selectedPark.name && */}
                         {this.state.selectedPark.name &&
-                            <div className="col-5 card" style={{ background: 'linear-gradient(-45deg,green,white)' }}>
+                            <div className="col-5 card">
                                 <h4 style={{ textAlign: 'center' }}>{this.state.selectedPark.name}</h4>
                                 <img src={this.state.selectedPark.photo_reference} style={{ maxWidth: "300px", margin: 'auto' }} />
                                 <br />
                             </div>}
                         {/* this.state.selectedPark.description && */}
                         {this.state.selectedPark.name ?
-                            <div className="col-6 card" style={{ color: 'black', background: 'linear-gradient(-45deg,green,white)' }}>
+                            <div className="col-6 card" style={{ color: 'black' }}>
                                 <h3 style={{ textAlign: 'center' }}>User Reviews</h3>
                                 {/* show all descriptions */}
                                 {this.state.selectedPark.description &&
                                     <div>
-                                    <table><tbody style={{ color: 'black' }}>
-                                        {this.state.selectedPark.description.map((text, index) => (<div><tr key={index}>
-                                            <td><b><font size="+1">
-                                                {this.props.usernames[this.state.selectedPark.user_id[index] - 1]}
-                                            </font></b></td></tr>
-                                            <tr key={(index + 1) * 100}><td><font size="-1">{text}</font></td></tr>
-                                            <tr key={(index + 2) * 200}><td></td></tr></div>))}
-                                    </tbody></table>
-                                </div>}
-                                {!this.state.addDescription && 
-                                <button className="btn btn-secondary" onClick={() => this.setState({ addDescription: true })} 
-                                    style={{ maxWidth: "300px", margin: 'auto' }}>Add a review</button>}
+                                        <table><tbody style={{ color: 'black' }}>
+                                            {this.state.selectedPark.description.map((text, index) => (<div><tr key={index}>
+                                                <td><b><font size="+1">
+                                                    {this.props.usernames[this.state.selectedPark.user_id[index] - 1]}
+                                                </font></b></td></tr>
+                                                <tr key={(index + 1) * 100}><td><font size="-1">{text}</font></td></tr>
+                                                <tr key={(index + 2) * 200}><td></td></tr></div>))}
+                                        </tbody></table>
+                                    </div>}
+                                {!this.state.addDescription &&
+                                    <button className="btn btn-secondary" onClick={() => this.setState({ addDescription: true })}
+                                    >Add a review</button>}
                                 {this.state.addDescription &&
-                                <div><textarea rows="4" cols="40" onChange={this.setDescription}></textarea>
-                                    <button onClick={this.handleSubmit} className="btn btn-secondary">Submit</button></div>}
+                                    <div><textarea rows="4" cols="40" onChange={this.setDescription}></textarea>
+                                        <button onClick={this.handleSubmit} className="btn btn-secondary">Submit</button></div>}
                             </div> :
-                    <noscript></noscript>}
+                            <noscript></noscript>}
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={2000}
+                            hideProgressBar
+                            newestOnTop
+                            closeOnClick
+                            rtl={false}
+                            pauseOnVisibilityChange={false}
+                            draggable={false}
+                            pauseOnHover
+                        />
                     </div>
                 </div>
 
-            {/* <pre style={{color: 'white'}}>{JSON.stringify(this.state,null,2)}</pre> */}
+                {/* <pre style={{color: 'white'}}>{JSON.stringify(this.props,null,2)}</pre> */}
 
             </div>
 
@@ -161,8 +181,8 @@ class StateMap extends Component {
 const mapStateToProps = state => {
     return {
         user: state.user,
-        parks: state.parksInState,
         usernames: state.usernames,
+        parks: state.parksInState,
     }
 }
 
