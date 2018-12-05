@@ -50,4 +50,7 @@ router.get('/usernames',(req,res)=>{
   })
 })
 
+router.get('/key', (req,res) => {
+  res.send(process.env.API_KEY);
+})
 module.exports = router;

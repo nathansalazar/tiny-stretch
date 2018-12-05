@@ -7,6 +7,7 @@ import playgrounds from './playgroundReducer';
 import parksInState from './parksInStateReducer';
 import usernames from './usernamesReducer';
 import proxy from './proxyReducer';
+import APIkey from './APIkeyReducer';
 
 //Lets make a bigger object for our store, with the objects from our reducers.
 //This is why we get this.props.reduxStore.user.isLoading
@@ -14,6 +15,7 @@ const store = combineReducers({
   user,
   login,
   route,
+  APIkey,
   checkpoints,
   playgrounds,
   parksInState,

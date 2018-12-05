@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import Map from '../Map/Map';
 import SearchForm from '../SearchForm/SearchForm';
 import Nav from '../Nav/Nav';
+import {connect} from 'react-redux';
 
-// const mapStateToProps = state => ({
-//   state,
-// });
+const mapStateToProps = state => ({
+  APIkey: state.APIkey,
+});
 
 class SearchPage extends Component {
 
   state={
-    url: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY&v=3.exp&libraries=geometry,drawing,places'
+    url: `https://maps.googleapis.com/maps/api/js?key=${this.props.APIkey}&v=3.exp&libraries=geometry,drawing,places`
   }
 
 
@@ -32,4 +33,4 @@ class SearchPage extends Component {
 }
 
 // this allows us to use <App /> in index.js
-export default SearchPage;
+export default connect(mapStateToProps)(SearchPage);

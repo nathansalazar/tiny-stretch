@@ -30,6 +30,18 @@ class Map extends Component {
         }
     }
 
+    routesEqual = (route1, route2) => {
+        return route1.origin === route2.origin && route1.destination === route2.destination && route1.radius === route2.radius;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.routesEqual(prevProps.state.route, this.props.state.route)) {
+            return null;
+        } else {
+            this.plotRouteAndParks(this.props.state.route);
+        }
+    }
+
     onMarkerClick = (playground) => {
         // console.log('You clicked on:', playground);
         this.setState({ selectedMarker: playground });
@@ -50,12 +62,12 @@ class Map extends Component {
             //if it's already in the database)
             //get the associated photo
             if (playground.photoReference) {
-                photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${playground.photoReference}&sensor=false&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`;
+                photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${playground.photoReference}&sensor=false&key=${this.props.state.APIkey}`;
             } else {
                 photo = 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif';
             }
             //get the state
-            let geocoder = new google.maps.Geocoder;
+            let geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'placeId': playground.id }, (results, status) => {
                 if (status === 'OK') {
                     if (results[0]) {
@@ -78,7 +90,7 @@ class Map extends Component {
         // else {
         //     //get the associated photo
         //     if (playground.photoReference) {
-        //         photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${playground.photoReference}&sensor=false&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`;
+        //         photo = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${playground.photoReference}&sensor=false&key=${this.props.state.APIkey}`;
         //     } else {
         //         photo = 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif';
         //     }
@@ -157,17 +169,6 @@ class Map extends Component {
         });
     }
 
-    routesEqual = (route1, route2) => {
-        return route1.origin === route2.origin && route1.destination === route2.destination && route1.radius === route2.radius;
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.routesEqual(prevProps.state.route, this.props.state.route)) {
-            return null;
-        } else {
-            this.plotRouteAndParks(this.props.state.route);
-        }
-    }
 
     addPark = () => {
         this.setState({ waypoints: [...this.state.waypoints, { location: this.state.address, name: this.state.selectedMarker.name }] });
@@ -265,7 +266,7 @@ class Map extends Component {
                             {this.state.selectedMarker.name && <div className="col-5 card">
                                 <h4 style={{textAlign: 'center'}}>{this.state.selectedMarker.name}</h4>
                                 <p style={{textAlign: 'center'}}>{this.state.address}</p>
-                                <img src={photo} style={{ maxWidth: "300px", margin: 'auto' }} />
+                                <img src={photo} alt={"park"} style={{ maxWidth: "300px", margin: 'auto' }} />
 
                                 <br />
                                 <button onClick={this.addPark} className="btn btn-secondary">Add this park to your trip</button>

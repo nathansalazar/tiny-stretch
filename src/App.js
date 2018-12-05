@@ -18,7 +18,7 @@ import UserPage from './components/UserPage/UserPage';
 import SearchPage from './components/SearchPage/SearchPage';
 import AddPlaygroundPage from './components/AddPlaygroundPage/AddPlaygroundPage';
 import SearchByStatePage from './components/searchByStatePage/searchByStatePage';
-import background from './styles/cool_playground.JPG';
+// import background from './styles/cool_playground.JPG';
 
 import './styles/main.css';
 
@@ -28,7 +28,8 @@ class App extends Component {
   //Will fire before render, insuring that our call is at least pending
   constructor(props) {
     super(props);
-    props.dispatch({ type: USER_ACTIONS.FETCH_USER })
+    props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+    props.dispatch({type: 'GET_API_KEY'});
   }
 
   render() {

@@ -14,13 +14,14 @@ const trimDownPlayground = (playground) => {
 function* searchParks (action) {
     try{
         const proxyToUse = yield select(state => state.proxy);
-        const playgroundObject = yield searchNearby(action.payload.lat, action.payload.lng, action.radius, proxyToUse);
+        const APIkey = yield select(state => state.APIkey);
+        const playgroundObject = yield searchNearby(action.payload.lat, action.payload.lng, action.radius, proxyToUse, APIkey);
 
         // const playgroundObject = yield axios('/', {
         //     headers: { 'Access-Control-Allow-Origin': 'http://localhost:3000', 'Access-Control-Allow-Methods': 'GET' },
         //     method: 'GET',
-        //     // url: `https://maps.googleapis.com/maps/api/place/textsearch/json?type=park&keyword=playground&location=42,-90&radius=10000&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`,
-        //     url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${action.payload.lat},${action.payload.lng}&radius=${Math.max(10000,action.radius)}&key=AIzaSyBDKdBqDqbNQtLtmUGZkAlZhdiPzTbs1eY`,
+        //     // url: `https://maps.googleapis.com/maps/api/place/textsearch/json?type=park&keyword=playground&location=42,-90&radius=10000&key=API_KEY`,
+        //     url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${action.payload.lat},${action.payload.lng}&radius=${Math.max(10000,action.radius)}&key=API_KEY`,
         //   })
 
         const allInfoOnPlaygrounds = playgroundObject.data.results;
