@@ -18,7 +18,6 @@ let proxies = ['http://cors-anywhere.herokuapp.com/','https://cors.io/?','https:
 //this is a nearby search
 export const searchNearby =  (lat, lng, radius, proxyIndex, APIkey) => {
     // return axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${lat},${lng}&radius=${Math.max(10000,radius)}&key=${APIkey}`);
-    console.log('Current proxy:',proxies[proxyIndex]);
     return axios.get(`${proxies[proxyIndex]}https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${lat},${lng}&radius=${Math.max(10000,radius)}&key=${APIkey}`);
 
     // return axios.get(xhr.send());

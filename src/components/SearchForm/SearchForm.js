@@ -24,7 +24,6 @@ class SearchForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.props.dispatch({ type: PLAYGROUND_ACTIONS.CLEAR_PLAYGROUNDS });
-        console.log('State:', this.state);
         this.setState({ submitted: !this.state.submitted });
         this.props.dispatch({ type: 'SET_ROUTE', payload: this.state });
     }
