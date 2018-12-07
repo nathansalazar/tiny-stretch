@@ -14,7 +14,7 @@ const playgroundObject = yield axios('/', {
 */
 
 //we use one of these web proxies to deal with the CORS errors
-let proxies = ['http://cors-anywhere.herokuapp.com/','https://cors.io/?','https://cors-proxy.htmldriven.com/?url='];
+let proxies = ['https://cors-anywhere.herokuapp.com/','https://cors.io/?','https://cors-proxy.htmldriven.com/?url='];
 //this is a nearby search
 export const searchNearby =  (lat, lng, radius, proxyIndex, APIkey) => {
     // return axios.get(`https://cors.io/?https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=park&keyword=playground&location=${lat},${lng}&radius=${Math.max(10000,radius)}&key=${APIkey}`);
