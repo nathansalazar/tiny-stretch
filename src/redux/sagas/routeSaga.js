@@ -22,7 +22,7 @@ const plotRouteAndParks = (route) => {
             let polyline = new google.maps.Polyline({
                 path: [],
             });
-            console.log(result);
+            // console.log(result);
             let legs = result.routes[0].legs;
             for (let i = 0; i < legs.length; i++) {
                 let steps = legs[i].steps;
@@ -33,7 +33,7 @@ const plotRouteAndParks = (route) => {
                     }
                 }
             }
-            console.log('Polyline:', polyline);
+            // console.log('Polyline:', polyline);
             console.log(Object.keys(polyline.latLngs));
 
             // we initialize our checkpoints with the first latLng from polyline
@@ -54,7 +54,7 @@ const plotRouteAndParks = (route) => {
                 }
             }
             console.log('We search at:', searchAt);
-            console.log('polyline.latLngs.b[0].b', polyline.latLngs.j[0].j);
+            console.log('polyline.latLngs.j[0].j', polyline.latLngs.j[0].j);
             this.props.dispatch({ type: 'SET_CHECKPOINTS', payload: searchAt });
         } else {
             console.error(`error fetching directions ${result}`);

@@ -36,7 +36,6 @@ class AddPlaygroundMap extends Component {
             selectedState: { center_lat: event.latLng.lat(), center_lng: event.latLng.lng(), zoom: this.gmap.props.zoom },
             zoom: Math.max(10, this.gmap.props.zoom), mapClicked: true
         });
-        console.log('You clicked on', this.state);
         // console.log(this.gmap.__reactInternalMemoizedMaskedChildContext.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.zoom);
     }
 
@@ -50,10 +49,9 @@ class AddPlaygroundMap extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Playground:', this.state);
         if (this.state.state && this.state.name) {
             this.props.dispatch({ type: 'POST_PLAYGROUND', payload: { ...this.state, photoReference: 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif', added_by: this.props.user.id } });
-            console.log('payload:', { ...this.state, photoReference: 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif', added_by: this.props.user.id });
+            // console.log('payload:', { ...this.state, photoReference: 'https://causeofaction.org/wp-content/uploads/2013/09/Not-available.gif', added_by: this.props.user.id });
         } else {
             alert('You must enter a name and choose the state');
         }
